@@ -1,6 +1,25 @@
+import { TEXT, TODO } from "./constants";
+
+// note
+export interface Note {
+    id: string;
+    type: typeof TEXT;
+    isPinned: boolean;
+    title: string;
+    content: string | LabelObj[];
+    color: string;
+    labels: LabelObj[];
+}
+
+// todo
+export interface Todo {
+    id: string;
+    item: string,
+    checked: boolean;
+}
 
 // label types
 export interface LabelObj {
-    id: string,
-    name: string
+    id: string;
+    name: string;
 }
