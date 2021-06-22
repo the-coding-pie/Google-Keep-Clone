@@ -1,13 +1,83 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400&display=swap");
+
+:root {
+  /* fonts */
+  --nunito-sans: "Nunito Sans", sans-serif;
+
+  /* colors */
+  --bg: #F7F7F7;
+  --text: #5E5E5E;
+  --light-text: #777777;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  width: 100vw;
+  height: 100h;
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--nunito-sans);
+  background: var(--bg);
+}
+
+button {
+  outline: none !important;
+}
+
+ul {
+  list-style-type: none !important;
+}
+
+input {
+  outline: none;
+}
+
+/* aside */
+aside li:hover {
+  @apply bg-gray-100;
+}
+
+aside li a.active {
+  @apply bg-yellow-100 hover:bg-yellow-100;
+}
+
+/* icon */
+.icon-xs {
+  @apply w-4 h-4;
+}
+
+.icon-sm {
+  @apply w-5 h-5;
+}
+
+.icon {
+  @apply w-6 h-6;
+}
+
+.icon-lg {
+  @apply w-7 h-7;
+}
+
+.icon-xl {
+  @apply w-8 h-8;
+}
+
+/* btn */
+.btn {
+  @apply hover:bg-gray-100 hover:bg-opacity-50 hover:text-gray-900 text-gray-700 p-1.5 rounded-full;
+}
+
+textarea {
+  white-space: pre-wrap;
 }

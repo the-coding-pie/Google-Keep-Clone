@@ -1,10 +1,15 @@
+import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import DefaultLayout from "./containers/layouts/DefaultLayout";
+import Modal from "./containers/Modal";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PrivateRoute from "./PrivateRoute";
+import { RootState } from "./store/reducers";
 
 const App = () => {
+  const modal = useSelector((state: RootState) => state.modal);
+
   return (
     <div className="relative">
       <Router>
@@ -23,6 +28,9 @@ const App = () => {
           </PrivateRoute>
         </Switch>
       </Router>
+
+      {/* modal */}
+      {modal.modalType !== null && <Modal {...modal} />}
     </div>
   );
 };

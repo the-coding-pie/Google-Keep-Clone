@@ -3,7 +3,7 @@ import { Route, Redirect, RouteProps } from "react-router-dom";
 interface Props extends RouteProps {}
 
 const PrivateRoute: React.FC<Props> = ({ children, ...rest }) => {
-  const auth = false;
+  const auth = true;
 
   // if authenticated allow them
   if (auth) {
