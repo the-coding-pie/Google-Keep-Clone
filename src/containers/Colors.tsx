@@ -1,9 +1,15 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store/reducers";
+import { Dispatcher, Note } from "../shared/types";
 
-const Colors = ({ note, setNote, fromNote }) => {
-  const colors = [
+interface Props {
+  note: Note;
+  setNote: Dispatcher<Note>;
+  fromNote: boolean;
+}
+
+const Colors: React.FC<Props> = ({ note, setNote, fromNote }) => {
+  const colors: string[] = [
     "#FFFFFF",
     "#F28B82",
     "#FBBD33",
@@ -20,11 +26,9 @@ const Colors = ({ note, setNote, fromNote }) => {
 
   const dispatch = useDispatch();
 
-  const handleClicke = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {};
+  const handleClick = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {};
 
-  return <div>
-      Colors
-  </div>
+  return <div>Colors</div>;
 };
 
 export default Colors;

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Note } from "../shared/types";
+import { Dispatcher, Note } from "../shared/types";
 
 interface Props {
   actualNote: Note;
-  setNote: React.Dispatch<React.SetStateAction<Note>>;
+  setNote: Dispatcher<Note>;
   fromNote: boolean;
 }
 
