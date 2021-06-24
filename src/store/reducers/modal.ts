@@ -1,12 +1,9 @@
 import { LABEL_MODAL, NOTE_MODAL } from "../../shared/constants";
+import { ModalObj } from "../../shared/types";
 import { HIDE_MODAL, ModalAction, SHOW_MODAL } from "../actions/modal";
 
-export interface ModalState {
-    modalType: typeof LABEL_MODAL | typeof NOTE_MODAL | null,
-    modalProps: Object
-}
 
-const initState: ModalState = {
+const initState: ModalObj = {
     modalType: null,
     modalProps: {}
 }

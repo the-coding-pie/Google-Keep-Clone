@@ -1,12 +1,12 @@
 import { useDispatch } from "react-redux";
 import useClose from "../hooks/useClose";
 import { hideModal } from "../store/actions/modal";
-import { ModalState } from "../store/reducers/modal";
 import LabelModal from "./LabelModal";
 import NoteModal from "./NoteModal";
 import { NOTE_MODAL, LABEL_MODAL } from '../shared/constants'
+import { ModalObj } from "../shared/types";
 
-interface Props extends ModalState {}
+interface Props extends ModalObj {}
 
 const Modal: React.FC<Props> = ({ modalType, modalProps }) => {
   const dispatch = useDispatch();

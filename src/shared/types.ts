@@ -1,22 +1,28 @@
 import React from "react";
-import { TEXT, TODO } from "./constants";
+import { LABEL_MODAL, NOTE_MODAL, TEXT, TODO } from "./constants";
 
 // dispatcher
 export type Dispatcher<S> = React.Dispatch<React.SetStateAction<S>>
 
+// modal
+export interface ModalObj {
+    modalType: typeof LABEL_MODAL | typeof NOTE_MODAL | null,
+    modalProps: Object
+}
+
 // note
-export interface Note {
+export interface NoteObj {
     id: string;
-    type: typeof TEXT;
+    type: typeof TEXT | typeof TODO;
     isPinned: boolean;
     title: string;
-    content: string | LabelObj[];
+    content: string | TodoObj[];
     color: string;
     labels: LabelObj[];
 }
 
 // todo
-export interface Todo {
+export interface TodoObj {
     id: string;
     item: string,
     checked: boolean;
