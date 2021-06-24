@@ -16,8 +16,6 @@ const Labels: React.FC<Props> = ({ note, setNote, setShowLabels }) => {
   const [label, setLabel] = useState("");
   const { labels } = useSelector((state: RootState) => state.labels);
 
-  const labelsRef = useClose(() => setShowLabels(false));
-
   const dispatch = useDispatch();
 
   const handleSubmit = (e: any) => {
@@ -75,8 +73,7 @@ const Labels: React.FC<Props> = ({ note, setNote, setShowLabels }) => {
 
   return (
     <ul
-      className="labels fixed bottom-12 bg-white rounded p-2 shadow text-gray-800"
-      ref={labelsRef}
+      className="labels bg-white rounded p-2 shadow-lg text-gray-800 z-50"
     >
       <div className="top mb-2 border-b pb-2">
         <h3 className="text-base font-bold mb-2">Label note</h3>

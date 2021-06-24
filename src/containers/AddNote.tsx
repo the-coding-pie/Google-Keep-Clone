@@ -155,7 +155,7 @@ const AddNote: React.FC<Props> = ({ actualNote, fromNote }) => {
       {/* labels */}
       <div className="labels">
         {note.labels.length > 0 && (
-          <ul className="labels px-3 mt-4 flex items-center mb-1.5">
+          <ul className="labels px-3 mt-4 flex flex-wrap items-center mb-1.5">
             {note.labels.map((label) => (
               <li
                 key={label.id}

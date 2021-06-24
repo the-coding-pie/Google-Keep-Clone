@@ -29,7 +29,7 @@ const AddText: React.FC<Props> = ({ show, setShow, note, setNote }) => {
       className={`bg-transparent px-2 w-full outline-none resize-none font-medium ${
         show === true
           ? note.type === TEXT
-            ? "h-28 mb-2"
+            ? "h-24 mb-2"
             : "hidden"
           : "h-6 mb-0"
       }`}

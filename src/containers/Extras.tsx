@@ -13,8 +13,10 @@ const Extras: React.FC<Props> = ({ note, setNote }) => {
   const [showColors, setShowColors] = useState<boolean>(false);
   const [showLabels, setShowLabels] = useState<boolean>(false);
 
+  const labelsRef = useClose(() => setShowLabels(false));
+
   return (
-    <div className="extra-options flex-1 flex items-center z-50">
+    <div className="extra-options flex-1 flex items-center">
       {/* add color btn */}
       <button
         aria-label="color change btn"
@@ -45,33 +47,37 @@ const Extras: React.FC<Props> = ({ note, setNote }) => {
         )}
       </button>
       {/* labels button */}
-      <button
-        aria-label="label button"
-        className="btn add-color relative"
-        onClick={(e) => {
-          e.preventDefault();
-          setShowLabels(!showLabels);
-        }}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="icon-xs"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
+      <div className="labels relative" ref={labelsRef}>
+        <button
+          aria-label="label button"
+          className="btn add-color"
+          onClick={(e) => {
+            e.preventDefault();
+            setShowLabels(!showLabels);
+          }}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
-          />
-        </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="icon-xs"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+            />
+          </svg>
+        </button>
         {/* labels */}
         {showLabels === true && (
-          <Labels {...{ note, setNote, setShowLabels }} />
+          <div className="absolute left-3 top-4 z-50">
+            <Labels {...{ note, setNote, setShowLabels }} />
+          </div>
         )}
-      </button>
+      </div>
     </div>
   );
 };

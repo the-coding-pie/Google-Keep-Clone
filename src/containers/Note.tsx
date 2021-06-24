@@ -15,7 +15,7 @@ const Note: React.FC<Props> = ({ note }) => {
 
   // if note is empty
   const EmptyComponent = (
-    <div className="pt-4 px-3 text-xl text-gray-400">Emtpy Note</div>
+    <div className="pt-4 px-3 pb-4 text-xl text-gray-400">Emtpy Note</div>
   );
 
   return (
@@ -63,7 +63,7 @@ const Note: React.FC<Props> = ({ note }) => {
 
       {/* lables section */}
       {note.labels.length > 0 && (
-        <ul className="labels px-3 mt-2 flex items-center">
+        <ul className="labels px-3 mt-2 flex items-center flex-wrap">
           {note.labels.map((label) => (
             <li
               key={label.id}
@@ -79,7 +79,7 @@ const Note: React.FC<Props> = ({ note }) => {
 
       {/* extras */}
       <div className="extras flex px-2 justify-between items-center h-10">
-        <div className="options z-50">
+        <div className="options">
           <Extras {...{ note }} />
         </div>
       </div>

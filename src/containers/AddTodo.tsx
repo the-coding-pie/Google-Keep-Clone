@@ -85,7 +85,7 @@ const AddTodo: React.FC<Props> = ({ note, setNote }) => {
   return (
     <div className="todo text-gray-500 w-full">
       {/* todo add box */}
-      <div className="items w-full mb-4">
+      <div className="items w-full mb-2">
         {/* todos */}
         {unDoneTodos.length > 0 &&
           unDoneTodos.map((todo) => (
