@@ -6,6 +6,7 @@ import AddTodo from "./AddTodo";
 import { NoteObj } from "../shared/types";
 import useClose from "../hooks/useClose";
 import { addNote } from "../store/actions/notes";
+import Extras from "./Extras";
 
 interface Props {
   actualNote: NoteObj;
@@ -150,6 +151,38 @@ const AddNote: React.FC<Props> = ({ actualNote, fromNote }) => {
           <AddTodo {...{ note, setNote }} />
         )}
       </div>
+
+      {/* labels */}
+      <div className="labels">
+        {note.labels.length > 0 && (
+          <ul className="labels px-3 mt-4 flex items-center mb-1.5">
+            {note.labels.map((label) => (
+              <li
+                key={label.id}
+                className="label mr-1 mb-1 last:mr-0 last:mb-0 bg-gray-300 bg-opacity-50 rounded-full px-1 text-xs"
+              >
+                {label.name.length > 7
+                  ? label.name.substring(0, 7) + "..."
+                  : label.name}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {/* bottom */}
+      {show === true && (
+        <div className="bottom extras flex items-center text-gray-800">
+          <div className="left relative z-50">
+            <Extras {...{ note, setNote }} />
+          </div>
+          <div className="right flex-1 flex items-center justify-end">
+            <button className="text-sm close-btn" onClick={() => handleClose()}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </form>
   );
 };

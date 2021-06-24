@@ -4,6 +4,7 @@ import { NOTE_MODAL, TEXT } from "../shared/constants";
 import { NoteObj } from "../shared/types";
 import { showModal } from "../store/actions/modal";
 import TodoNote from "./TodoNote";
+import Extras from "./Extras";
 
 interface Props {
   note: NoteObj;
@@ -62,7 +63,7 @@ const Note: React.FC<Props> = ({ note }) => {
 
       {/* lables section */}
       {note.labels.length > 0 && (
-        <ul className="labels px-3 mt-4 flex items-center mb-1.5">
+        <ul className="labels px-3 mt-2 flex items-center">
           {note.labels.map((label) => (
             <li
               key={label.id}
@@ -77,9 +78,9 @@ const Note: React.FC<Props> = ({ note }) => {
       )}
 
       {/* extras */}
-      <div className="extras flex p-3 pt-1 justify-between items-center h-10">
+      <div className="extras flex px-2 justify-between items-center h-10">
         <div className="options z-50">
-          {/* <Extras {...{ note, fromNote: true }} /> */}
+          <Extras {...{ note }} />
         </div>
       </div>
     </div>
