@@ -129,18 +129,15 @@ const AddNote: React.FC<Props> = ({ actualNote, fromNote }) => {
               }}
             >
               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon-sm"
-                fill="none"
+                className="icon text-gray-500"
                 viewBox="0 0 24 24"
-                stroke="currentColor"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-                />
+                  d="M17 19H7C5.89543 19 5 18.1046 5 17V7C5 5.89543 5.89543 5 7 5H17C18.1046 5 19 5.89543 19 7V17C19 18.1046 18.1046 19 17 19ZM7 7V17H17V7H7ZM11 15.362L8.3 12.715L9.7 11.285L11 12.556L14.3 9.289L15.7 10.711L11 15.361V15.362Z"
+                  fill="currentColor"
+                ></path>
               </svg>
             </button>
           </div>
@@ -174,7 +171,7 @@ const AddNote: React.FC<Props> = ({ actualNote, fromNote }) => {
       {show === true && (
         <div className="bottom extras flex items-center text-gray-800">
           <div className="left relative z-50">
-            <Extras {...{ note, setNote }} />
+            <Extras {...{ note, setNote, fromNote: false }} />
           </div>
           <div className="right flex-1 flex items-center justify-end">
             <button className="text-sm close-btn" onClick={() => handleClose()}>
