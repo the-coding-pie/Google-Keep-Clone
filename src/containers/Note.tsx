@@ -9,9 +9,10 @@ import { updateNote } from "../store/actions/notes";
 
 interface Props {
   note: NoteObj;
+  fromNote: boolean;
 }
 
-const Note: React.FC<Props> = ({ note }) => {
+const Note: React.FC<Props> = ({ note, fromNote }) => {
   const dispatch = useDispatch();
 
   // if note is empty
@@ -34,7 +35,8 @@ const Note: React.FC<Props> = ({ note }) => {
             showModal({
               modalType: NOTE_MODAL,
               modalProps: {
-                id: note.id,
+                actualNote: note,
+                fromNote,
               },
             })
           );
@@ -49,14 +51,14 @@ const Note: React.FC<Props> = ({ note }) => {
       {/* content */}
       {/* if content is text */}
       {note.type === TEXT ? (
-        note.content !== "" ? (
+        note.content !== "" || note.title !== "" ? (
           <div className="text p-3" contentEditable={false}>
             {note.content}
           </div>
         ) : (
           EmptyComponent
         )
-      ) : note.content.length > 0 ? (
+      ) : note.content.length > 0 || note.title !== "" ? (
         <TodoNote {...{ note }} />
       ) : (
         EmptyComponent

@@ -24,7 +24,8 @@ const Home = () => {
   return (
     <div>
       <div className="add-box flex items-center justify-center">
-        <AddNote actualNote={actualNote} fromNote={false} />
+        {/* direct */}
+        <AddNote {...{ actualNote, fromNote: false }} />
       </div>
 
       <div className="body px-4 flex flex-col items-center">
@@ -37,7 +38,8 @@ const Home = () => {
             {/* notes */}
             <div className="notes items-start justify-items-center grid grid-cols-4 gap-4">
               {pinnedNotes.map((note) => (
-                <Note key={note.id} note={note} />
+                // indirect
+                <Note key={note.id} {...{ note, fromNote: true }} />
               ))}
             </div>
           </div>
@@ -55,7 +57,7 @@ const Home = () => {
             {/* notes */}
             <div className="notes items-start justify-items-center grid grid-cols-4 gap-4">
               {otherNotes.map((note) => (
-                <Note key={note.id} note={note} />
+                <Note key={note.id} {...{ note, fromNote: true }} />
               ))}
             </div>
           </div>

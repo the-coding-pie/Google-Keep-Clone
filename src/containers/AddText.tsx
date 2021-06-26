@@ -7,9 +7,16 @@ interface Props {
   setShow: Dispatcher<boolean>;
   note: NoteObj;
   setNote: Dispatcher<NoteObj>;
+  fromNote: boolean;
 }
 
-const AddText: React.FC<Props> = ({ show, setShow, note, setNote }) => {
+const AddText: React.FC<Props> = ({
+  show,
+  setShow,
+  note,
+  setNote,
+  fromNote,
+}) => {
   return (
     <textarea
       value={note.content as string}

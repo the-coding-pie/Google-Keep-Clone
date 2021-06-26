@@ -1,15 +1,17 @@
-import React from "react"
+import React from "react";
+import { NoteObj } from "../shared/types";
+import AddNote from "./AddNote";
 
 interface Props {
-    modalProps: Object
+  modalProps: Object;
 }
 
 const NoteModal: React.FC<Props> = ({ modalProps }) => {
-    return (
-        <div>
-            Note Modal
-        </div>
-    )
-}
+  const { actualNote, fromNote } = modalProps as {
+    actualNote: NoteObj;
+    fromNote: boolean;
+  };
+  return <AddNote {...{ actualNote, fromNote }} />;
+};
 
-export default NoteModal
+export default NoteModal;

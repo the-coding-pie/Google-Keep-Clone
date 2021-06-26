@@ -5,9 +5,10 @@ import { Dispatcher, NoteObj, TodoObj } from "../shared/types";
 interface Props {
   note: NoteObj;
   setNote: Dispatcher<NoteObj>;
+  fromNote: boolean;
 }
 
-const AddTodo: React.FC<Props> = ({ note, setNote }) => {
+const AddTodo: React.FC<Props> = ({ note, setNote, fromNote }) => {
   const [todo, setTodo] = useState<string>("");
 
   const [unDoneTodos, setUnDoneTodos] = useState<TodoObj[]>([]);

@@ -33,22 +33,24 @@ const AddNote: React.FC<Props> = ({ actualNote, fromNote }) => {
   };
 
   const handleClose = () => {
-    // if note is not empty, add it then reset it
-    if (note.content !== "" || note.title !== "" || note.labels.length > 0) {
-      dispatch(addNote(note));
+    if (fromNote === false) {
+      // if note is not empty, add it then reset it
+      if (note.content !== "" || note.title !== "" || note.labels.length > 0) {
+        dispatch(addNote(note));
+      }
+
+      setShow(false);
+
+      setNote({
+        id: (Math.random() * 10).toString(),
+        type: TEXT,
+        isPinned: false,
+        title: "",
+        content: "",
+        color: "#FFFFFF",
+        labels: [],
+      });
     }
-
-    setShow(false);
-
-    setNote({
-      id: (Math.random() * 10).toString(),
-      type: TEXT,
-      isPinned: false,
-      title: "",
-      content: "",
-      color: "#FFFFFF",
-      labels: [],
-    });
   };
 
   const ref = useClose(() => handleClose());
@@ -70,7 +72,7 @@ const AddNote: React.FC<Props> = ({ actualNote, fromNote }) => {
             type="text"
             name="title"
             value={note.title}
-            onChange={(e) => handleChange}
+            onChange={(e) => handleChange(e)}
             placeholder="Title"
             className="bg-transparent w-full px-2 font-semibold"
           />
@@ -111,7 +113,7 @@ const AddNote: React.FC<Props> = ({ actualNote, fromNote }) => {
       {/* middle section */}
       <div className="middle flex justify-between items-center">
         {/* addText */}
-        <AddText {...{ show, setShow, note, setNote }} />
+        <AddText {...{ show, setShow, note, setNote, fromNote }} />
 
         {/* todo toggle btn */}
         {show === false && (
@@ -145,7 +147,7 @@ const AddNote: React.FC<Props> = ({ actualNote, fromNote }) => {
 
         {/* todo part */}
         {show === true && note.type === TODO && (
-          <AddTodo {...{ note, setNote }} />
+          <AddTodo {...{ note, setNote, fromNote }} />
         )}
       </div>
 
@@ -171,7 +173,7 @@ const AddNote: React.FC<Props> = ({ actualNote, fromNote }) => {
       {show === true && (
         <div className="bottom extras flex items-center text-gray-800">
           <div className="left relative z-50">
-            <Extras {...{ note, setNote, fromNote: false }} />
+            <Extras {...{ note, setNote, fromNote }} />
           </div>
           <div className="right flex-1 flex items-center justify-end">
             <button className="text-sm close-btn" onClick={() => handleClose()}>
