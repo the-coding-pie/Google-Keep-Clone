@@ -7,9 +7,10 @@ import { updateNote } from "../store/actions/notes";
 interface Props {
   note: NoteObj;
   setNote?: Dispatcher<NoteObj>;
+  fromNote: boolean;
 }
 
-const Colors: React.FC<Props> = ({ note, setNote }) => {
+const Colors: React.FC<Props> = ({ note, setNote, fromNote }) => {
   const dispatch = useDispatch();
 
   const handleClick = (
@@ -27,6 +28,16 @@ const Colors: React.FC<Props> = ({ note, setNote }) => {
       dispatch(updateNote(newNote));
     } else {
       // comes from AddNote component, so update the local state
+      // if it is from a Note (or NoteModal)
+      if (fromNote === true) {
+        const newNote = {
+          ...note,
+          color: c,
+        };
+        // dispatch
+        dispatch(updateNote(newNote));
+      }
+      // if it is local, do this one only
       setNote((prevValue) => {
         return {
           ...prevValue,

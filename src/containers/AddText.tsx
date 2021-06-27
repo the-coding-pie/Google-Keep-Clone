@@ -1,6 +1,8 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { TEXT } from "../shared/constants";
 import { Dispatcher, NoteObj } from "../shared/types";
+import { updateNote } from "../store/actions/notes";
 
 interface Props {
   show: boolean;
@@ -17,17 +19,29 @@ const AddText: React.FC<Props> = ({
   setNote,
   fromNote,
 }) => {
+  const dispatch = useDispatch();
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (fromNote === true) {
+      const newNote = {
+        ...note,
+        content: e.target.value,
+      };
+
+      dispatch(updateNote(newNote));
+    }
+    setNote((prevValue) => {
+      return {
+        ...prevValue,
+        content: e.target.value,
+      };
+    });
+  };
+
   return (
     <textarea
       value={note.content as string}
-      onChange={(e) =>
-        setNote((prevValue) => {
-          return {
-            ...prevValue,
-            content: e.target.value,
-          };
-        })
-      }
+      onChange={(e) => handleChange(e)}
       onFocus={() => {
         setShow(true);
       }}

@@ -14,9 +14,11 @@ const LabelModal = () => {
   const keyHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
+      const newLabel = name.trim();
+      let oldLabel = labels.filter((label) => label.name === newLabel);
 
-      if (name !== "") {
-        dispatch(addLabel(name.trim()));
+      if (name !== "" && oldLabel.length === 0) {
+        dispatch(addLabel(newLabel));
         setName("");
       }
     }

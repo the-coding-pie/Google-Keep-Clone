@@ -4,6 +4,7 @@ import useClose from "../hooks/useClose";
 import { TEXT, TODO } from "../shared/constants";
 import { Dispatcher, NoteObj, TodoObj } from "../shared/types";
 import { textToTodos, todosToText } from "../shared/utils";
+import { hideModal } from "../store/actions/modal";
 import { deleteNote, updateNote } from "../store/actions/notes";
 import Colors from "./Colors";
 import Labels from "./Labels";
@@ -11,9 +12,10 @@ import Labels from "./Labels";
 interface Props {
   note: NoteObj;
   setNote?: Dispatcher<NoteObj>;
+  fromNote: boolean;
 }
 
-const Extras: React.FC<Props> = ({ note, setNote }) => {
+const Extras: React.FC<Props> = ({ note, setNote, fromNote }) => {
   const [showColors, setShowColors] = useState<boolean>(false);
   const [showLabels, setShowLabels] = useState<boolean>(false);
   const dispatch = useDispatch();
@@ -47,7 +49,7 @@ const Extras: React.FC<Props> = ({ note, setNote }) => {
         {/* colors */}
         {showColors === true && (
           <div className="absolute -left-9 right-0 bottom-5">
-            <Colors {...{ note, setNote }} />
+            <Colors {...{ note, setNote, fromNote }} />
           </div>
         )}
       </button>
@@ -83,7 +85,7 @@ const Extras: React.FC<Props> = ({ note, setNote }) => {
         {/* labels */}
         {showLabels === true && (
           <div className="absolute left-3 top-4 z-50">
-            <Labels {...{ note, setNote, setShowLabels }} />
+            <Labels {...{ note, setNote, fromNote }} />
           </div>
         )}
       </div>
@@ -103,6 +105,15 @@ const Extras: React.FC<Props> = ({ note, setNote }) => {
 
               dispatch(updateNote(newNote));
             } else {
+              if (fromNote === true) {
+                const newNote: NoteObj = {
+                  ...note,
+                  type: TODO,
+                  content: textToTodos(note.content as string),
+                };
+
+                dispatch(updateNote(newNote));
+              }
               setNote((prevValue: any) => {
                 return {
                   ...prevValue,
@@ -142,6 +153,14 @@ const Extras: React.FC<Props> = ({ note, setNote }) => {
               };
               dispatch(updateNote(newNote));
             } else {
+              if (fromNote === true) {
+                const newNote: NoteObj = {
+                  ...note,
+                  type: TEXT,
+                  content: todosToText(note.content as TodoObj[])!,
+                };
+                dispatch(updateNote(newNote));
+              }
               setNote((prevValue: any) => {
                 return {
                   ...prevValue,
@@ -168,29 +187,37 @@ const Extras: React.FC<Props> = ({ note, setNote }) => {
         </button>
       )}
 
-      <button
-        className="btn"
-        onClick={(e) => {
-          e.preventDefault();
+      {/* delete-btn */}
+      {fromNote === true && (
+        <button
+          className="btn"
+          aria-label="delete button"
+          onClick={(e) => {
+            e.preventDefault();
 
-          dispatch(deleteNote(note.id));
-        }}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="icon-xs text-gray-600"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
+            dispatch(deleteNote(note.id));
+
+            if (setNote) {
+              dispatch(hideModal());
+            }
+          }}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-          />
-        </svg>
-      </button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="icon-xs text-gray-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
+          </svg>
+        </button>
+      )}
     </div>
   );
 };

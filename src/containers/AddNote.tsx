@@ -5,7 +5,7 @@ import AddText from "./AddText";
 import AddTodo from "./AddTodo";
 import { NoteObj } from "../shared/types";
 import useClose from "../hooks/useClose";
-import { addNote } from "../store/actions/notes";
+import { addNote, updateNote } from "../store/actions/notes";
 import Extras from "./Extras";
 
 interface Props {
@@ -20,6 +20,14 @@ const AddNote: React.FC<Props> = ({ actualNote, fromNote }) => {
   const dispatch = useDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (fromNote === true) {
+      const newNote = {
+        ...note,
+        [e.target.name]: e.target.value,
+      };
+      dispatch(updateNote(newNote));
+    }
+
     setNote((prevValue) => {
       return {
         ...prevValue,
@@ -35,7 +43,7 @@ const AddNote: React.FC<Props> = ({ actualNote, fromNote }) => {
   const handleClose = () => {
     if (fromNote === false) {
       // if note is not empty, add it then reset it
-      if (note.content !== "" || note.title !== "" || note.labels.length > 0) {
+      if (note.content.length > 0 || note.title !== "" || note.labels.length > 0) {
         dispatch(addNote(note));
       }
 
@@ -81,7 +89,16 @@ const AddNote: React.FC<Props> = ({ actualNote, fromNote }) => {
             className="btn"
             onClick={(e) => {
               e.preventDefault();
-
+              // if it is from NoteModal
+              if (fromNote === true) {
+                const newNote = {
+                  ...note,
+                  isPinned: !note.isPinned,
+                };
+                // dispatch
+                dispatch(updateNote(newNote));
+              }
+              // if it is from local
               setNote((prevValue) => {
                 return {
                   ...prevValue,
@@ -171,7 +188,7 @@ const AddNote: React.FC<Props> = ({ actualNote, fromNote }) => {
 
       {/* bottom */}
       {show === true && (
-        <div className="bottom extras flex items-center text-gray-800">
+        <div className="bottom extras flex items-center text-gray-800 mt-3">
           <div className="left relative z-50">
             <Extras {...{ note, setNote, fromNote }} />
           </div>

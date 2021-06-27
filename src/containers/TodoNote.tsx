@@ -49,7 +49,7 @@ const TodoNote: React.FC<Props> = ({ note }) => {
         {unDoneTodos.map((todo) => (
           <li
             key={todo.id}
-            className="py-1 w-auto cursor-pointer flex items-center justify-start"
+            className="py-1 w-auto cursor-pointer flex items-baseline justify-start"
             onClick={() => handleCheck(todo)}
           >
             <div className="flex items-center">

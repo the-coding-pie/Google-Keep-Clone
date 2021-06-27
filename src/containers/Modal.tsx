@@ -28,7 +28,7 @@ const Modal: React.FC<Props> = ({ modalType, modalProps }) => {
 
   return (
     <div className="backdrop fixed w-auto h-full top-0 right-0 bottom-0 left-0 z-50 flex bg-gray-800 bg-opacity-50 justify-center items-center">
-      <div className="modal w-auto" ref={ref}>
+      <div className="modal w-auto mb-36" ref={ref}>
         {Component !== null && <Component {...{ modalProps }} />}
       </div>
     </div>

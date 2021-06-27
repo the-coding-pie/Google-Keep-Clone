@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteLabel, updateLabel } from "../store/actions/labels";
 import { LabelObj } from "../shared/types";
+import { RootState } from "../store/reducers";
 
 interface Props {
   label: LabelObj;
@@ -11,13 +12,15 @@ interface Props {
 const LabelTodo: React.FC<Props> = ({ label }) => {
   const initialValue = label.name;
 
+  const { labels } = useSelector((state: RootState) => state.labels);
   const [labelName, setLabelName] = useState(label.name);
   const [readOnly, setReadOnly] = useState(true);
 
   const dispatch = useDispatch();
 
   const handleUpdate = () => {
-    if (labelName.trim() !== initialValue) {
+    let oldLabel = labels.filter((label) => label.name === labelName.trim());
+    if (labelName.trim() !== initialValue && oldLabel.length === 0) {
       // some updates have been performed
       dispatch(
         updateLabel({
@@ -25,6 +28,8 @@ const LabelTodo: React.FC<Props> = ({ label }) => {
           name: labelName.trim(),
         })
       );
+    } else {
+      setLabelName(initialValue);
     }
   };
 

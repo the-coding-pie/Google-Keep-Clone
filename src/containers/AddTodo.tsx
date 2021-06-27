@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Dispatcher, NoteObj, TodoObj } from "../shared/types";
+import { updateNote } from "../store/actions/notes";
 
 interface Props {
   note: NoteObj;
@@ -16,8 +18,25 @@ const AddTodo: React.FC<Props> = ({ note, setNote, fromNote }) => {
 
   const [hasToggled, setHasToggled] = useState<boolean>(false);
 
+  const dispatch = useDispatch();
+
   const addTodo = () => {
     if (todo !== "") {
+      if (fromNote === true) {
+        const newNote = {
+          ...note,
+          content: [
+            ...(note.content as TodoObj[]),
+            {
+              id: (Math.random() * 10).toString(),
+              item: todo,
+              checked: false,
+            },
+          ],
+        };
+        dispatch(updateNote(newNote));
+      }
+
       setNote((prevValue) => {
         return {
           ...prevValue,
@@ -49,6 +68,30 @@ const AddTodo: React.FC<Props> = ({ note, setNote, fromNote }) => {
     setHasToggled(!hasToggled);
   };
 
+  const handleDelete = (todo: TodoObj) => {
+    const content = note.content as TodoObj[];
+
+    const newTodos = content.filter((t) => {
+      return t.id !== todo.id;
+    });
+
+    if (fromNote === true) {
+      const newNote = {
+        ...note,
+        content: newTodos,
+      };
+
+      dispatch(updateNote(newNote));
+    }
+
+    setNote((prevValue) => {
+      return {
+        ...prevValue,
+        content: newTodos,
+      };
+    });
+  };
+
   const handleCheck = (todo: TodoObj) => {
     const content = note.content as TodoObj[];
     const newTodos = content.map((t) => {
@@ -57,6 +100,15 @@ const AddTodo: React.FC<Props> = ({ note, setNote, fromNote }) => {
       }
       return t;
     });
+
+    if (fromNote === true) {
+      const newNote = {
+        ...note,
+        content: newTodos,
+      };
+
+      dispatch(updateNote(newNote));
+    }
 
     setNote((prevValue) => {
       return {
@@ -67,36 +119,58 @@ const AddTodo: React.FC<Props> = ({ note, setNote, fromNote }) => {
   };
 
   useEffect(() => {
-    if (note.content.length > 0) {
-      const getUnDoneTodos = () => {
-        const content = note.content as TodoObj[];
-        return content.filter((item) => item.checked === false);
-      };
+    const getUnDoneTodos = () => {
+      const content = note.content as TodoObj[];
+      return content.filter((item) => item.checked === false);
+    };
 
-      const getDoneTodos = () => {
-        const content = note.content as TodoObj[];
-        return content.filter((item) => item.checked === true);
-      };
+    const getDoneTodos = () => {
+      const content = note.content as TodoObj[];
+      return content.filter((item) => item.checked === true);
+    };
 
-      setUnDoneTodos(getUnDoneTodos());
-      setDoneTodos(getDoneTodos());
-    }
+    setUnDoneTodos(getUnDoneTodos());
+    setDoneTodos(getDoneTodos());
   }, [note.content]);
 
   return (
-    <div className="todo text-gray-500 w-full">
+    <div className="todo text-gray-500 w-full h-28 overflow-y-auto">
       {/* todo add box */}
       <div className="items w-full mb-2">
         {/* todos */}
         {unDoneTodos.length > 0 &&
           unDoneTodos.map((todo) => (
-            <div key={todo.id} className="px-4 py-1">
-              <input
-                type="checkbox"
-                onClick={() => handleCheck(todo)}
-                className="mr-3"
-              />
-              <span>{todo.item}</span>
+            <div
+              key={todo.id}
+              className="px-4 py-1 flex justify-between items-start"
+            >
+              <div className="flex items-baseline mr-2">
+                <input
+                  type="checkbox"
+                  onClick={() => handleCheck(todo)}
+                  className="mr-3"
+                />
+                <span className="break-all">{todo.item}</span>
+              </div>
+              <button
+                aria-label="delete todo"
+                onClick={() => handleDelete(todo)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="icon-sm"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
             </div>
           ))}
 
@@ -171,15 +245,39 @@ const AddTodo: React.FC<Props> = ({ note, setNote, fromNote }) => {
             </div>
             {hasToggled === true &&
               doneTodos.map((todo) => (
-                <div key={todo.id} className="px-4 py-1">
-                  <input
-                    type="checkbox"
-                    onClick={() => handleCheck(todo)}
-                    checked={true}
-                    readOnly
-                    className="mr-3"
-                  />
-                  <span className="line-through">{todo.item}</span>
+                <div
+                  key={todo.id}
+                  className="px-4 py-1 flex items-start justify-between"
+                >
+                  <div className="flex items-baseline mr-2">
+                    <input
+                      type="checkbox"
+                      onClick={() => handleCheck(todo)}
+                      checked={true}
+                      readOnly
+                      className="mr-3"
+                    />
+                    <span className="line-through break-all">{todo.item}</span>
+                  </div>
+                  <button
+                    aria-label="delete todo"
+                    onClick={() => handleDelete(todo)}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="icon-sm"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
                 </div>
               ))}
           </div>

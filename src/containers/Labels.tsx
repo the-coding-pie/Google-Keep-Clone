@@ -9,10 +9,10 @@ import { RootState } from "../store/reducers";
 interface Props {
   note: NoteObj;
   setNote?: Dispatcher<NoteObj>;
-  setShowLabels: Dispatcher<boolean>;
+  fromNote: boolean;
 }
 
-const Labels: React.FC<Props> = ({ note, setNote, setShowLabels }) => {
+const Labels: React.FC<Props> = ({ note, setNote, fromNote }) => {
   const [label, setLabel] = useState("");
   const { labels } = useSelector((state: RootState) => state.labels);
 
@@ -44,6 +44,11 @@ const Labels: React.FC<Props> = ({ note, setNote, setShowLabels }) => {
       if (!setNote) {
         dispatch(updateNote(n));
       } else {
+        if (fromNote === true) {
+          // dispatch
+          dispatch(updateNote(n));
+        }
+
         setNote(n);
       }
       setLabel("");
@@ -68,13 +73,24 @@ const Labels: React.FC<Props> = ({ note, setNote, setShowLabels }) => {
     } else {
       n.labels.push(label);
     }
-    dispatch(updateNote(note));
+
+    if (!setNote) {
+      dispatch(updateNote(n));
+    } else {
+      if (fromNote === true) {
+        dispatch(updateNote(n));
+      }
+      setNote((prevValue) => {
+        return {
+          ...prevValue,
+          n,
+        };
+      });
+    }
   };
 
   return (
-    <ul
-      className="labels bg-white rounded p-2 shadow-lg text-gray-800 z-50"
-    >
+    <ul className="labels bg-white rounded p-2 shadow-lg text-gray-800 z-50">
       <div className="top mb-2 border-b pb-2">
         <h3 className="text-base font-bold mb-2">Label note</h3>
         <form
