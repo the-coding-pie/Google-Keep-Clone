@@ -10,7 +10,7 @@ const Sidebar = () => {
   const dispatch = useDispatch();
 
   return (
-    <aside className="fixed w-52 h-screen bg-white shadow left-0 top-14 bottom-0 right-0">
+    <aside className="fixed w-52 h-screen overflow-y-auto pb-36 bg-white shadow left-0 top-14 bottom-0 right-0">
       <ul className="main border-b mb-2.5">
         <li>
           <NavLink

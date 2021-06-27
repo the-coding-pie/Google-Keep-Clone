@@ -7,6 +7,7 @@ import { NoteObj } from "../shared/types";
 import useClose from "../hooks/useClose";
 import { addNote, updateNote } from "../store/actions/notes";
 import Extras from "./Extras";
+import { hideModal } from "../store/actions/modal";
 
 interface Props {
   actualNote: NoteObj;
@@ -41,24 +42,28 @@ const AddNote: React.FC<Props> = ({ actualNote, fromNote }) => {
   };
 
   const handleClose = () => {
-    if (fromNote === false) {
+    if (fromNote === true) {
+      dispatch(hideModal());
+    } else {
       // if note is not empty, add it then reset it
-      if (note.content.length > 0 || note.title !== "" || note.labels.length > 0) {
+      if (
+        note.content.length > 0 ||
+        note.title !== "" ||
+        note.labels.length > 0
+      ) {
         dispatch(addNote(note));
       }
-
       setShow(false);
-
-      setNote({
-        id: (Math.random() * 10).toString(),
-        type: TEXT,
-        isPinned: false,
-        title: "",
-        content: "",
-        color: "#FFFFFF",
-        labels: [],
-      });
     }
+    setNote({
+      id: (Math.random() * 10).toString(),
+      type: TEXT,
+      isPinned: false,
+      title: "",
+      content: "",
+      color: "#FFFFFF",
+      labels: [],
+    });
   };
 
   const ref = useClose(() => handleClose());

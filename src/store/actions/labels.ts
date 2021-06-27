@@ -1,4 +1,7 @@
-import { LabelObj } from "../../shared/types"
+import { LabelObj, NoteObj } from "../../shared/types"
+import { Dispatch } from "redux"
+import { NotesAction, updateNote, UPDATE_NOTE } from "./notes"
+import { RootState } from "../reducers"
 
 // action.type types
 export const ADD_LABEL = "ADD_LABEL"
@@ -31,16 +34,76 @@ export const addLabel = (name: string): AddLabel => {
     }
 }
 
-export const updateLabel = (label: LabelObj): UpdateLabel => {
-    return {
-        type: UPDATE_LABEL,
-        payload: label
+export const updateLabel = (label: LabelObj) => {
+    return function (dispatch: Dispatch<UpdateLabel | NotesAction>, getState: () => RootState) {
+        const { notes } = getState().notes
+
+        // loop through notes and find notes with this label
+        const notesWithLabels: NoteObj[] = []
+
+        notes.forEach(note => {
+            note.labels.forEach(l => {
+                if (l.id === label.id) {
+                    const newNote: NoteObj = {
+                        ...note,
+                        labels: note.labels.map((la) => {
+                            if (la.id === label.id) {
+                                return {
+                                    ...la,
+                                    name: label.name
+                                }
+                            }
+                            return la;
+                        })
+                    }
+                    notesWithLabels.push(newNote)
+                }
+            })
+        })
+
+        if (notesWithLabels.length > 0) {
+            notesWithLabels.forEach(note => {
+                dispatch(updateNote(note))
+            })
+        }
+
+        dispatch({
+            type: UPDATE_LABEL,
+            payload: label
+        })
     }
+
 }
 
-export const deleteLabel = (id: string): DeleteLabel => {
-    return {
-        type: DELETE_LABEL,
-        payload: id
+export const deleteLabel = (id: string) => {
+    return function (dispatch: Dispatch<DeleteLabel | NotesAction>, getState: () => RootState) {
+        const { notes } = getState().notes
+
+        // loop through notes and find notes with this label
+        const notesWithLabels: NoteObj[] = []
+
+        notes.forEach(note => {
+            note.labels.forEach(label => {
+                if (label.id === id) {
+                    const newNote: NoteObj = {
+                        ...note,
+                        labels: note.labels.filter(l => l.id !== id)
+                    }
+                    notesWithLabels.push(newNote)
+                }
+            })
+        })
+
+        if (notesWithLabels.length > 0) {
+            notesWithLabels.forEach(note => {
+                dispatch(updateNote(note))
+            })
+        }
+
+        dispatch({
+            type: DELETE_LABEL,
+            payload: id
+        })
+
     }
 }

@@ -27,7 +27,10 @@ const labelsReducer = (state = initState, action: LabelAction) => {
                 ...state,
                 labels: state.labels.map((label) => {
                     if (label.id === action.payload.id) {
-                        return action.payload
+                        return {
+                            ...label,
+                            name: action.payload.name
+                        }
                     }
                     return label;
                 }),
