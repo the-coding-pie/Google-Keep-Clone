@@ -1,6 +1,6 @@
 import { LabelObj, NoteObj } from "../../shared/types"
 import { Dispatch } from "redux"
-import { NotesAction, updateNote, UPDATE_NOTE } from "./notes"
+import { NotesAction, updateNote } from "./notes"
 import { RootState } from "../reducers"
 
 // action.type types

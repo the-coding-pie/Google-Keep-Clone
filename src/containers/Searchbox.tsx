@@ -1,17 +1,9 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import {
-  RouteComponentProps,
   useHistory,
   useLocation,
-  useParams,
-  useRouteMatch,
 } from "react-router-dom";
-import { TODO } from "../shared/constants";
-import { TodoObj } from "../shared/types";
-import { todosToText } from "../shared/utils";
-import { RootState } from "../store/reducers";
 
 const Searchbox = () => {
   const [search, setSearch] = useState("");

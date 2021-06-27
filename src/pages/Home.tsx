@@ -118,7 +118,7 @@ const LabelFilter: React.FC<RouteComponentProps> = ({ match }) => {
           )}
         </div>
       ) : (
-        <div>Oops No Notes Found</div>
+        <div className="flex justify-center items-center text-gray-700">Wow, such empty!</div>
       )}
     </div>
   );

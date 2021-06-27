@@ -6,6 +6,7 @@ import Sidebar from "../Sidebar";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/reducers";
 import SearchPage from "../../pages/SearchPage";
+import About from "../../pages/About";
 
 const DefaultLayout = () => {
   const { show } = useSelector((state: RootState) => state.sidebar);
@@ -23,6 +24,7 @@ const DefaultLayout = () => {
         >
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/about" component={About} />
 
             <Route exact path="/label/:label" component={Home} />
 

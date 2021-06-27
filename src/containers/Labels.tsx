@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import useClose from "../hooks/useClose";
 import { Dispatcher, LabelObj, NoteObj } from "../shared/types";
 import { addLabel } from "../store/actions/labels";
 import { updateNote } from "../store/actions/notes";

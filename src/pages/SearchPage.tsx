@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
-import AddNote from "../containers/AddNote";
-import { TEXT, TODO } from "../shared/constants";
-import { NoteObj, TodoObj } from "../shared/types";
+import { TODO } from "../shared/constants";
+import { TodoObj } from "../shared/types";
 import { RootState } from "../store/reducers";
 import Note from "../containers/Note";
 import Masonry from "react-masonry-css";

@@ -1,4 +1,3 @@
-import { LABEL_MODAL, NOTE_MODAL } from "../../shared/constants";
 import { ModalObj } from "../../shared/types";
 import { HIDE_MODAL, ModalAction, SHOW_MODAL } from "../actions/modal";
 
