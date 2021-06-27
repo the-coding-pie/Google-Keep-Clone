@@ -16,10 +16,7 @@ const labelsReducer = (state = initState, action: LabelAction) => {
                 ...state,
                 labels: [
                     ...state.labels,
-                    {
-                        id: (Math.random() * 10).toString(),
-                        name: action.payload
-                    }
+                    action.payload
                 ]
             }
         case UPDATE_LABEL:

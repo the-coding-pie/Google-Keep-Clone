@@ -18,7 +18,12 @@ const LabelModal = () => {
       let oldLabel = labels.filter((label) => label.name === newLabel);
 
       if (name !== "" && oldLabel.length === 0) {
-        dispatch(addLabel(newLabel));
+        dispatch(
+          addLabel({
+            id: (Math.random() * 10).toString(),
+            name: newLabel,
+          })
+        );
         setName("");
       }
     }

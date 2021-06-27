@@ -28,17 +28,15 @@ const Labels: React.FC<Props> = ({ note, setNote, fromNote }) => {
 
     // if no label like this exists, then only add it
     if (oldLabel.length === 0) {
-      dispatch(addLabel(newLabel));
+      const l = {
+        id: (Math.random() * 10).toString(),
+        name: newLabel,
+      };
+      dispatch(addLabel(l));
 
       const n = {
         ...note,
-        labels: [
-          ...note.labels,
-          {
-            id: (Math.random() * 10).toString(),
-            name: newLabel,
-          },
-        ],
+        labels: [...note.labels, l],
       };
 
       if (!setNote) {

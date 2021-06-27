@@ -20,7 +20,8 @@ const LabelTodo: React.FC<Props> = ({ label }) => {
 
   const handleUpdate = () => {
     let oldLabel = labels.filter((label) => label.name === labelName.trim());
-    if (labelName.trim() !== initialValue && oldLabel.length === 0) {
+    
+    if (labelName.trim() !== initialValue && oldLabel.length === 0 && labelName.trim() !== "") {
       // some updates have been performed
       dispatch(
         updateLabel({
@@ -40,7 +41,7 @@ const LabelTodo: React.FC<Props> = ({ label }) => {
   };
 
   useEffect(() => {
-    const handler = setTimeout(() => [handleUpdate()], 500);
+    const handler = setTimeout(() => handleUpdate(), 500);
 
     return () => {
       clearTimeout(handler);

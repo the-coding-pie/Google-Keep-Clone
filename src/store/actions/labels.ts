@@ -11,7 +11,7 @@ export const DELETE_LABEL = "DELTE_LABEL"
 // action's type
 interface AddLabel {
     type: typeof ADD_LABEL,
-    payload: string
+    payload: LabelObj
 }
 
 interface UpdateLabel {
@@ -27,10 +27,10 @@ interface DeleteLabel {
 export type LabelAction = AddLabel | UpdateLabel | DeleteLabel
 
 // action creators
-export const addLabel = (name: string): AddLabel => {
+export const addLabel = (label: LabelObj): AddLabel => {
     return {
         type: ADD_LABEL,
-        payload: name
+        payload: label
     }
 }
 
@@ -60,6 +60,8 @@ export const updateLabel = (label: LabelObj) => {
                 }
             })
         })
+
+        console.log(notesWithLabels)
 
         if (notesWithLabels.length > 0) {
             notesWithLabels.forEach(note => {
