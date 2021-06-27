@@ -1,4 +1,39 @@
+import { useEffect } from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import {
+  RouteComponentProps,
+  useHistory,
+  useLocation,
+  useParams,
+  useRouteMatch,
+} from "react-router-dom";
+import { TODO } from "../shared/constants";
+import { TodoObj } from "../shared/types";
+import { todosToText } from "../shared/utils";
+import { RootState } from "../store/reducers";
+
 const Searchbox = () => {
+  const [search, setSearch] = useState("");
+  const history = useHistory();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!location.pathname.includes("/search")) {
+      setSearch("");
+    }
+  }, [location]);
+
+  const keyHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const event = e.target as HTMLInputElement;
+
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      history.push(`/search/${event.value.trim()}`);
+    }
+  };
+
   return (
     <form className="bg-gray-100 p-2 py-1.5 flex justify-between items-center rounded text-gray-500 w-1/2">
       <svg
@@ -15,8 +50,11 @@ const Searchbox = () => {
 
       <input
         type="text"
+        onKeyDown={keyHandler}
         placeholder="Search"
         className="outline-none bg-transparent text-base w-full"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
       />
     </form>
   );

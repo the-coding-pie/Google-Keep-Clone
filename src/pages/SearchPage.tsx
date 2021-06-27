@@ -1,46 +1,59 @@
 import { useSelector } from "react-redux";
 import AddNote from "../containers/AddNote";
-import { TEXT } from "../shared/constants";
-import { NoteObj } from "../shared/types";
+import { TEXT, TODO } from "../shared/constants";
+import { NoteObj, TodoObj } from "../shared/types";
 import { RootState } from "../store/reducers";
 import Note from "../containers/Note";
 import Masonry from "react-masonry-css";
 import { RouteComponentProps } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
+import { todosToText } from "../shared/utils";
 
-const LabelFilter: React.FC<RouteComponentProps> = ({ match }) => {
+const SearchPage: React.FC<RouteComponentProps> = ({ match }) => {
   const { params } = match;
 
-  const { label } = params as {
-    label: string;
+  const { search } = params as {
+    search: string;
   };
 
-  const actualNote: NoteObj = {
-    id: (Math.random() * 10).toString(),
-    type: TEXT,
-    isPinned: false,
-    title: "",
-    content: "",
-    color: "#FFFFFF",
-    labels: [],
-  };
+  let { notes: n } = useSelector((state: RootState) => state.notes);
+  //   copy of original notes
+  const initNotes = n;
 
-  let { notes } = useSelector((state: RootState) => state.notes);
+  const [notes, setNotes] = useState(n);
 
-  if (label !== "") {
-    let notesWithLabel: NoteObj[] = [];
+  useEffect(() => {
+    const newNotes = initNotes.filter((note) => {
+      if (note.content.length > 0 && note.content !== null) {
+        const content: any =
+          note.type === TODO
+            ? todosToText(note.content as TodoObj[])
+            : note.content;
+        let labels = "";
 
-    notes.forEach((note) => {
-      note.labels.forEach((l) => {
-        if (l.name === label) {
-          notesWithLabel.push(note);
-        }
-      });
+        note.labels.forEach((l) => {
+          labels += l.name;
+        });
+
+        return (
+          note.title.includes(search) ||
+          content.includes(search) ||
+          labels.includes(search)
+        );
+      }
     });
 
-    if (notesWithLabel.length > 0) {
-      notes = notesWithLabel;
+    if (newNotes.length > 0) {
+      setNotes(newNotes);
+    } else {
+      if (search === "" || search === undefined) {
+        setNotes(initNotes);
+      } else {
+        setNotes([]);
+      }
     }
-  }
+  }, [search]);
 
   const pinnedNotes = notes.filter((note) => note.isPinned === true);
   const otherNotes = notes.filter((note) => note.isPinned !== true);
@@ -52,11 +65,6 @@ const LabelFilter: React.FC<RouteComponentProps> = ({ match }) => {
         width: "1100px",
       }}
     >
-      <div className="add-box flex items-center justify-center">
-        {/* direct */}
-        <AddNote {...{ actualNote, fromNote: false }} />
-      </div>
-
       {notes.length > 0 ? (
         <div className="body w-full flex flex-col">
           {pinnedNotes.length > 0 && (
@@ -124,4 +132,4 @@ const LabelFilter: React.FC<RouteComponentProps> = ({ match }) => {
   );
 };
 
-export default LabelFilter;
+export default SearchPage;

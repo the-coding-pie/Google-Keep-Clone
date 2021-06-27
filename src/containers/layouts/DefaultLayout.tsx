@@ -5,6 +5,7 @@ import Navbar from "../../containers/Navbar";
 import Sidebar from "../Sidebar";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/reducers";
+import SearchPage from "../../pages/SearchPage";
 
 const DefaultLayout = () => {
   const { show } = useSelector((state: RootState) => state.sidebar);
@@ -18,14 +19,14 @@ const DefaultLayout = () => {
         {show && <Sidebar />}
 
         <div
-          className={`body mt-14 ${
-            show === true ? "ml-52" : "ml-0"
-          } px-4 py-8`}
+          className={`body mt-14 ${show === true ? "ml-52" : "ml-0"} px-4 py-8`}
         >
           <Switch>
-            <Route exact path="/">
-              <Home />
-            </Route>
+            <Route exact path="/" component={Home} />
+
+            <Route exact path="/label/:label" component={Home} />
+
+            <Route exact path="/search/:search?" component={SearchPage} />
 
             {/* 404 Page */}
             <Route path="*">
