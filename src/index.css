@@ -81,3 +81,21 @@ aside li a.active {
 textarea {
   white-space: pre-wrap;
 }
+
+.my-masonry-grid {
+  display: flex;
+  margin-left: -10px; /* gutter size offset */
+  width: auto;
+  box-sizing: border-box;
+}
+
+.my-masonry-grid_column {
+  padding-left: 20px; /* gutter size */
+  background-clip: padding-box;
+}
+
+/* Style your items */
+.my-masonry-grid_column > div#note { /* change div to reference your elements you put in <Masonry> */
+  background: grey;
+  margin-bottom: 20px;
+}

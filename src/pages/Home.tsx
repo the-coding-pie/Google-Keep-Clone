@@ -4,6 +4,7 @@ import { TEXT } from "../shared/constants";
 import { NoteObj } from "../shared/types";
 import { RootState } from "../store/reducers";
 import Note from "../containers/Note";
+import Masonry from "react-masonry-css";
 
 const Home = () => {
   const actualNote: NoteObj = {
@@ -22,13 +23,15 @@ const Home = () => {
   const otherNotes = notes.filter((note) => note.isPinned !== true);
 
   return (
-    <div>
+    <div className="m-auto" style={{
+      width: "1100px"
+    }}>
       <div className="add-box flex items-center justify-center">
         {/* direct */}
         <AddNote {...{ actualNote, fromNote: false }} />
       </div>
 
-      <div className="body px-4 flex flex-col items-center">
+      <div className="body w-full flex flex-col">
         {pinnedNotes.length > 0 && (
           <div className="pinned-notes mb-12">
             {/* pinned notes */}
@@ -36,11 +39,23 @@ const Home = () => {
               PINNED
             </h2>
             {/* notes */}
-            <div className="notes items-start justify-items-center grid grid-cols-4 gap-4">
-              {pinnedNotes.map((note) => (
-                // indirect
-                <Note key={note.id} {...{ note, fromNote: true }} />
-              ))}
+            <div className="notes">
+              <Masonry
+                breakpointCols={{
+                  default: 4,
+                  1200: 4,
+                  1024: 3,
+                  768: 2,
+                  576: 1,
+                }}
+                className="my-masonry-grid"
+                columnClassName="my-masonry-grid_column"
+              >
+                {pinnedNotes.map((note) => (
+                  // indirect
+                  <Note key={note.id} {...{ note, fromNote: true }} />
+                ))}
+              </Masonry>
             </div>
           </div>
         )}
@@ -48,6 +63,7 @@ const Home = () => {
         {/* other notes */}
         {otherNotes.length > 0 && (
           <div className="pinned-notes">
+            
             {/* other notes */}
             {pinnedNotes.length > 0 && (
               <h2 className="font-semibold pl-2 text-xs mb-2 text-gray-700">
@@ -55,10 +71,22 @@ const Home = () => {
               </h2>
             )}
             {/* notes */}
-            <div className="notes items-start justify-items-center grid grid-cols-4 gap-4">
+            <div className="notes">
+            <Masonry
+                breakpointCols={{
+                  default: 4,
+                  1200: 4,
+                  1024: 3,
+                  768: 2,
+                  576: 1,
+                }}
+                className="my-masonry-grid"
+                columnClassName="my-masonry-grid_column"
+              >
               {otherNotes.map((note) => (
                 <Note key={note.id} {...{ note, fromNote: true }} />
               ))}
+              </Masonry>
             </div>
           </div>
         )}
