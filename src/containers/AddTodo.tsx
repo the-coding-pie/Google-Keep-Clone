@@ -129,8 +129,10 @@ const AddTodo: React.FC<Props> = ({ note, setNote, fromNote }) => {
       return content.filter((item) => item.checked === true);
     };
 
-    setUnDoneTodos(getUnDoneTodos());
-    setDoneTodos(getDoneTodos());
+    if (note.content.length > 0) {
+      setUnDoneTodos(getUnDoneTodos());
+      setDoneTodos(getDoneTodos());
+    }
   }, [note.content]);
 
   return (
